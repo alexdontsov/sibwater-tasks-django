@@ -1,0 +1,19 @@
+version: '3.3'
+services:
+  db:
+    image: postgres
+  web:
+    build: .
+    command: python manage.py runserver 0.0.0.0:8000
+    volumes:
+      - .:/code
+    ports:
+      - "8000:8000"
+    depends_on:
+      - db
+#https://webdevblog:
+#  ru/kak-ispolzovat-django-postgresql-i-docker/:
+#
+#
+#    https://dev-gang:
+#      ru/article/naczalo-raboty-s-docker-i-django-73cvl13n55/:
