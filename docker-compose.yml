@@ -1,19 +1,39 @@
 version: '3.3'
 services:
-  db:
-    image: postgres
   web:
     build: .
-    command: python manage.py runserver 0.0.0.0:8000
+    command: python /sibwater_site/manage.py runserver 0.0.0.0:8000
+    environment:
+      #      DJANGO_SETTINGS_MODULE: "project.settings.development"
+      DEBUG: 1
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: postgres
+      POSTGRES_HOST: db
+
     volumes:
-      - .:/code
+      - .:/sibwater_site
     ports:
-      - "8000:8000"
+      - "${HTTP_PORT:-8000}:8000"
     depends_on:
       - db
-#https://webdevblog:
-#  ru/kak-ispolzovat-django-postgresql-i-docker/:
+  db:
+    image: postgres:11
+    volumes:
+      - postgres_data:/var/lib/posgresql/data/
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: postgres
+      POSTGRES_HOST: db
+    ports:
+      - "${DB_PORT:-5432}:5432"
+
+volumes:
+  postgres_data:
+
+
+#https://webdevblog.ru/kak-ispolzovat-django-postgresql-i-docker/:
 #
 #
-#    https://dev-gang:
-#      ru/article/naczalo-raboty-s-docker-i-django-73cvl13n55/:
+#    https://dev-gang.ru/article/naczalo-raboty-s-docker-i-django-73cvl13n55/:
