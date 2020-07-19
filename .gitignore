@@ -1,1 +1,4 @@
 .idea
+sibwater_site/__pycache__/
+static/
+
